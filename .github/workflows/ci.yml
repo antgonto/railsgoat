@@ -7,6 +7,33 @@ on:
     branches: [ main ]
 
 jobs:
+  sast:
+    name: Static Application Security Testing
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.1'
+
+      - name: Install Brakeman
+        run: gem install brakeman
+
+      - name: Run Brakeman Security Audit
+        run: brakeman -f json -o brakeman-report.json
+        continue-on-error: true 
+
+      - name: Upload Brakeman Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: brakeman-results
+          path: brakeman-report.json
+          retention-days: 14
   test:
     runs-on: ubuntu-latest
 
