@@ -3,7 +3,7 @@ source "https://rubygems.org"
 
 gem "rails", "~> 8.0.0"
 
-ruby "3.4.1"
+ruby "3.2.3"
 
 gem "aruba"
 gem "bcrypt"
@@ -59,4 +59,8 @@ end
 
 group :mysql do
   gem "mysql2"
+end
+
+group :development, :test do
+  gem 'brakeman', require: false
 end
